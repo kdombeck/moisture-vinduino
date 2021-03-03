@@ -26,7 +26,7 @@ echo
 echo
 echo "!!!! Installing Data Scraper !!!!"
 apt install -y python3-pip
-pip install requests timeloop
+pip3 install requests timeloop
 
 cp datascraper.py /usr/bin/datascraper.py
 cp datascraper.ini /usr/bin/datascraper.ini
