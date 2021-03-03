@@ -25,7 +25,7 @@ curl -X POST --user admin:admin localhost:3000/api/datasources -H 'Content-Type:
 echo
 echo
 echo "!!!! Installing Data Scraper !!!!"
-apt install 0y python3-pip
+apt install -y python3-pip
 pip install requests timeloop
 
 cp datascraper.py /usr/bin/datascraper.py
