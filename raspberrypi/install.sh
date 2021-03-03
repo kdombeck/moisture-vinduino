@@ -9,6 +9,7 @@ apt-get install -y influxdb
 curl -i -XPOST http://localhost:8086/query --data-urlencode "q=CREATE DATABASE vinduinodb"
 
 # from https://grafana.com/tutorials/install-grafana-on-raspberry-pi/
+echo
 echo "!!!! Installing Grafana !!!!"
 wget -q -O - https://packages.grafana.com/gpg.key | apt-key add -
 echo "deb https://packages.grafana.com/oss/deb stable main" | tee -a /etc/apt/sources.list.d/grafana.list
@@ -21,8 +22,10 @@ systemctl start grafana-server
 curl -X POST --user admin:admin localhost:3000/api/datasources -H 'Content-Type: application/json' -d '{"name":"Sensor Database","type":"influxdb","access":"proxy","url":"http://localhost:8086","database":"vinduinodb"}'
 # curl -X POST --user admin:admin localhost:3000/api/dashboards/db -H 'Content-Type: application/json' -d @grafanaDashboard.json
 
+echo
+echo
 echo "!!!! Installing Data Scraper !!!!"
-apt install python3-pip
+apt install 0y python3-pip
 pip install requests timeloop
 
 cp datascraper.py /usr/bin/datascraper.py
