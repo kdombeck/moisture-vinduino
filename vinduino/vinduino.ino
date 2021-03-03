@@ -6,11 +6,13 @@
 #include <Wire.h>                 // I2C communication to RTC
 #include "LowPower.h"             // Needed for sleep mode, developed by "Rocketscream"
 #include <math.h>                 // Conversion equation from resistance to %
-#include <dht.h>                  // Rob Tillaart's library
+#include <OneWire.h>
+#include <DallasTemperature.h>
 
 //set up temp sensor
-dht DHT;
-#define DHT22_PIN 12
+#define ONE_WIRE_BUS 12
+OneWire ourWire(ONE_WIRE_BUS);
+DallasTemperature sensors(&ourWire);
 
 #define PCF8563address 0x51       // Format data for RTC
 byte timercontrol, timervalue;    // for interrupt timer
@@ -30,7 +32,7 @@ const long knownResistor = 4750;  // Value of R9 and R10 in Ohms, = reference fo
 
 unsigned long supplyVoltage;      // Measured supply voltage
 unsigned long sensorVoltage;      // Measured sensor voltage
-int zeroCalibration = 95;        // calibrate sensor resistace to zero when input is short circuited
+int zeroCalibration = 95;         // calibrate sensor resistace to zero when input is short circuited
                                   // basically this is compensating for the mux switch resistance
 
 values valueOf[NUM_READS];        // Calculated  resistances to be averaged
@@ -200,13 +202,11 @@ void soilsensors() {
   delay (10);
   analogReference(DEFAULT);
 
-  //Read DHT-22 sensor
-  int chk = DHT.read22(DHT22_PIN);      // temperature sensor data
+  sensors.requestTemperatures();      // Send the command to get temperatures
 
-  temp = DHT.temperature;
-  humidity = DHT.humidity;
-  //temp = temp + 100; //use this line when sensor installed
-  temp = 100; humidity = 0; //use this line when sensor NOT installed
+  temp = (sensors.getTempFByIndex(0)); // Degrees F
+  // temp = (sensors.getTempCByIndex(0)); // Degrees C
+  //temp = 100; humidity = 0; //use this line when sensor NOT installed
 
   TxData();
 }
@@ -295,7 +295,7 @@ void measureSensor() {
 
 
 // Averaging algorithm
-void addReading(long resistance){
+void addReading(long resistance) {
   buffer[index2] = resistance;
   index2++;
   if (index2 >= NUM_READS) index2 = 0;
@@ -314,7 +314,7 @@ void wakeUp() {
 }
 
 // RTC routines below
-void PCF8563alarmOff() {}
+void PCF8563alarmOff() {
   // turns off alarm enable bits and wipes alarm registers.
   byte test;
   // first retrieve the value of control register 2
@@ -344,14 +344,14 @@ void checkPCF8563alarm() {   // checks if the alarm has been activated
   test = Wire.read();
   test = test & B00000100 ;// read the timer alarm flag bit
 
-  if (test == B00000100) {} // alarm on?
+  if (test == B00000100) { // alarm on?
     digitalWrite(13, HIGH);   // turn pin 13 and Radio module on (HIGH is the voltage level)
     delay(50);
     PCF8563alarmOff(); // turn off the alarm
   }
 }
 
-void settimerPCF8563() {}
+void settimerPCF8563() {
   // this sets the timer from the PCF8563
   Wire.beginTransmission(PCF8563address);
   Wire.write(0x0E); // move pointer to timer control address
