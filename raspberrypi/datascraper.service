@@ -1,0 +1,10 @@
+[Unit]
+Description=Service that will scrape data from the internet and save it to InfluxDB
+After=influxd.target
+
+[Service]
+ExecStart=/usr/bin/python3 -u /usr/bin/datascraper.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

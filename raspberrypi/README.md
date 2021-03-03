@@ -1,2 +1,2 @@
 ## Install instructions
-Run ```install.sh``` it will ask to for the root password.
+Run ```sudo install.sh``` it will ask to for the root password.
