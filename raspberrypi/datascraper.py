@@ -37,7 +37,7 @@ def create_body_for_db(zipCode, dict):
         + ' ' + str(dict['dt'])
 
 def find_weather_data(zipCode, apiKey):
-    r = requests.get('http://api.openweathermap.org/data/2.5/weather?units=imperial&zip=' + zipCode + ',us&APPID=' + apiKey)
+    r = requests.get('http://api.openweathermap.org/data/2.5/weather?units=imperial&zip=' + zipCode + ',us&APPID=' + openWeatherApiKey)
     if r.status_code == 200:
         return r.json()
     else:
