@@ -22,6 +22,7 @@ curl -X POST --user admin:admin localhost:3000/api/datasources -H 'Content-Type:
 # curl -X POST --user admin:admin localhost:3000/api/dashboards/db -H 'Content-Type: application/json' -d @grafanaDashboard.json
 
 echo "!!!! Installing Data Scraper !!!!"
+apt install python3-pip
 pip install requests timeloop
 
 cp datascraper.py /usr/bin/datascraper.py
