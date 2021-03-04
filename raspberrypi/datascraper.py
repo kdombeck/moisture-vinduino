@@ -29,7 +29,7 @@ def insert_into_db(message):
         logging.error('Failed to send payload to influxdb: ' + str(r.status_code) + ' ' + r.text)
 
 def create_body_for_db(dict):
-    return 'weather,host=' + zipCode + ' temp=' + str(dict['main']['temp']) \
+    return 'weather,zip=' + zipCode + ' temp=' + str(dict['main']['temp']) \
         + ',humidity=' + str(dict['main']['humidity']) \
         + ',windSpeed=' + str(dict['wind']['speed']) \
         + ',windDirection=' + str(dict['wind']['deg']) \
