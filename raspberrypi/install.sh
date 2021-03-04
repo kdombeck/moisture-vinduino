@@ -26,11 +26,11 @@ echo
 echo
 echo "!!!! Installing Data Scraper !!!!"
 apt install -y python3-pip
-pip3 install requests timeloop
+pip3 install requests python-dateutil
 
 cp datascraper.py /usr/bin/datascraper.py
 cp datascraper.ini /usr/bin/datascraper.ini
-cp datascraper.service /etc/systemd/system/datascraper.service
+echo '5,35 * * * * root cd /usr/bin; python3 ./datascraper.py' > /etc/cron.d/datascraper
 
 echo 'Enter in your zip code:'
 read zipCode
@@ -40,5 +40,6 @@ echo 'Enter in your http://openweathermap.org/ api key:'
 read apiKey
 sed -i "s/OpenWeatherMapApiKey =/OpenWeatherMapApiKey = $apiKey/" /usr/bin/datascraper.ini
 
-systemctl enable datascraper
-systemctl start datascraper
+echo 'Enter in your TheThingNetwork data storage api key:'
+read apiKey
+sed -i "s/TheThingsNetworkDataStorageAccessKey =/TheThingsNetworkDataStorageAccessKey = $apiKey/" /usr/bin/datascraper.ini
