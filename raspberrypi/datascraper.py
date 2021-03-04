@@ -46,6 +46,7 @@ def save_the_things_network_data():
         logging.warn('Failed to get data from the things network ' + str(r.status_code) + ' ' + r.text)
 
 def save_the_thing_network_response_to_db(dict):
+    logging.info('inserting TTN ' + str(len(dict)) + ' records')
     for entry in dict:
         influxdb = 'vinduino,device=' + str(entry['device_id']) + ' temp=' + str(entry['temp']) \
             + ',voltage=' + str(entry['voltage']) \
@@ -54,7 +55,7 @@ def save_the_thing_network_response_to_db(dict):
             + ',moisture3=' + str(entry['moisture3']) \
             + ',moisture4=' + str(entry['moisture4']) \
             + ' ' + str(int(dateutil.parser.isoparse(str(entry['time'])).timestamp()))
-        logging.info('inserting TTN ' + influxdb)
+        # logging.info('inserting TTN ' + influxdb)
         insert_into_db(influxdb)
 
 if __name__ == "__main__":
