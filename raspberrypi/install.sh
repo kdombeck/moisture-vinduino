@@ -19,8 +19,11 @@ apt-get install -y grafana
 systemctl enable grafana-server
 systemctl start grafana-server
 
-curl -X POST --user admin:admin localhost:3000/api/datasources -H 'Content-Type: application/json' -d '{"name":"Vinduino Database","type":"influxdb","access":"proxy","url":"http://localhost:8086","database":"vinduinodb"}'
-# curl -X POST --user admin:admin localhost:3000/api/dashboards/db -H 'Content-Type: application/json' -d @grafanaDashboard.json
+echo 'Enter in Grafana password (default password is 'admin'):'
+read password
+
+curl -X POST --user admin:$password localhost:3000/api/datasources -H 'Content-Type: application/json' -d '{"name":"Vinduino Database","type":"influxdb","access":"proxy","url":"http://localhost:8086","database":"vinduinodb"}'
+curl -X POST --user admin:$password localhost:3000/api/dashboards/db -H 'Content-Type: application/json' -d @grafanaDashboard.json
 
 echo
 echo
