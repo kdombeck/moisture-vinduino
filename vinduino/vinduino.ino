@@ -363,7 +363,7 @@ void settimerPCF8563() {
 
   Wire.beginTransmission(PCF8563address);
   Wire.write(0x0F); // move pointer to timer value address
-  Wire.write(0x1E); // sends delay time value (0F =15 minutes, 1E = 0.5 hour, 3C = 1 hour)
+  Wire.write(0xFF); // sends delay time value (0F = 15 seconds, 1E = 30 seconds, 3C = 60 seconds)
   Wire.endTransmission();
 
   // optional - turns on INT_ pin when timer activated
