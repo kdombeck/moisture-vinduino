@@ -214,51 +214,37 @@ void soilsensors() {
 void TxData() {
   Serial.print("AAT2 Tx=2,uncnf,");
 
-  if (Vsys<16) //add leading zero
-  {Serial.print(0, HEX);}
-  if (Vsys>255) //handle overflow
-  {Vsys = 255;}
-  Serial.print(Vsys, HEX);
-
-  if (temp<16) //add leading zero fix
-  {Serial.print(0, HEX);}
-  if (temp>255) //handle overflow
-  {temp = 255;}
-  Serial.print(temp, HEX);
-
-  if (humidity<16) //add leading zero fix
-  {Serial.print(0, HEX);}
-  if (humidity>255) //handle overflow
-  {humidity = 255;}
-  Serial.print(humidity, HEX);
-
-  if (tension1<16) //add leading zero fix
-  {Serial.print(0, HEX);}
-  if (tension1>255) //handle overflow
-  {tension1 = 255;}
-  Serial.print(tension1,HEX);
-
-  if (tension2<16) //add leading zero fix
-  {Serial.print(0, HEX);}
-  if (tension2>255) //handle overflow
-  {tension2 = 255;}
-  Serial.print(tension2,HEX);
-
-  if (tension3<16) //add leading zero fix
-  {Serial.print(0, HEX);}
-  if (tension3>255) //handle overflow
-  {tension3 = 255;}
-  Serial.print(tension3,HEX);
-
-  if (tension4<16) //add leading zero fix
-  {Serial.print(0, HEX);}
-  if (tension4>255) //handle overflow
-  {tension4 = 255;}
-  Serial.println(tension4,HEX);
+  printHex(Vsys);
+  printHex(temp);
+  printHex(humidity);
+  printHex(tension1);
+  printHex(tension2);
+  printHex(tension3);
+  printHex(tension4);
+  Serial.println();
 
   delay (500);
 
   digitalWrite(13, LOW); //  LED off
+}
+
+void printHex(int value) {
+  if (value < 0) {
+    // handle negetive numbers
+    value = 0;
+  }
+
+  if (value < 16) {
+    // value leading zero fix
+    Serial.print(0, HEX);
+  }
+
+  if (value > 255) {
+    // handle overflow
+    value = 255;
+  }
+
+  Serial.print(value,HEX);
 }
 
 void measureSensor() {
