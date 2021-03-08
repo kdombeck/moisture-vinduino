@@ -39,7 +39,7 @@ values valueOf[NUM_READS];        // Calculated  resistances to be averaged
 long buffer[NUM_READS];
 int index2;
 int i;                            // Simple index variable
-int j=0;                          // Simple index variable
+int j = 0;                        // Simple index variable
 
 int tension1;
 int tension2;
@@ -55,7 +55,7 @@ boolean joinAccept = false;
 String inputString = "";         // a String to hold incoming data
 boolean stringComplete = false;  // whether the string is complete
 
-int n =10;
+int n = 10;
 
 void setup() {
   // initialize serial communications at 57600 bps:
@@ -116,7 +116,7 @@ void loop() {
 
   for (i = 0; i < n; i++) {
     serialEvent();
-    Serial.println (i);
+    Serial.println(i);
     delay (300);
   }
 
@@ -259,8 +259,6 @@ void TxData() {
   delay (500);
 
   digitalWrite(13, LOW); //  LED off
-
-  return;
 }
 
 void measureSensor() {
@@ -303,7 +301,7 @@ void addReading(long resistance) {
 
 long average() {
   long sum = 0;
-  for (int i = 0; i < NUM_READS; i++){
+  for (int i = 0; i < NUM_READS; i++) {
     sum += buffer[i];
   }
   return (long)(sum / NUM_READS);
